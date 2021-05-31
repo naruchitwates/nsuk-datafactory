@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "CustomerEmployeeDataFlow",
+				"description": "Add comment to Pipeline2",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
