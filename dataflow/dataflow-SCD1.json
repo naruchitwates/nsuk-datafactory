@@ -1,0 +1,20 @@
+{
+	"name": "dataflow-SCD1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ASSIGN_SQL_DB_SOURCE",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "source(output(\n\t\tID as integer,\n\t\tCustomer_name as string,\n\t\tSalary as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1"
+		}
+	}
+}
