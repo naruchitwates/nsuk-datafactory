@@ -1,0 +1,52 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AZ_DATALAKE_CSV_ORDERS",
+						"type": "DatasetReference"
+					},
+					"name": "DataLake01"
+				},
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_DBO_CUSTOMERS",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerDB"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_DBO_ORDER_SINK",
+						"type": "DatasetReference"
+					},
+					"name": "SQLDatabase01"
+				},
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_DB_ORDER_SINK_2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "CustomerLookup"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\ttransaction_id as integer,\n\t\ttransaction_date as date,\n\t\ttransaction_time as timestamp,\n\t\tstore_id as integer,\n\t\tstaff_id as integer,\n\t\tcustomer_id as integer,\n\t\tinstore_yn as boolean,\n\t\torder as string,\n\t\tline_item_id as string,\n\t\tproduct_id as integer,\n\t\tquantity_sold as integer,\n\t\tunit_price as double,\n\t\tpromo_item_yn as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DataLake01\nsource(output(\n\t\tcustomer_id as integer,\n\t\thome_store as string,\n\t\tcustomer_first_name as string,\n\t\tcustomer_email as string,\n\t\tcustomer_since as string,\n\t\tloyalty_card_number as string,\n\t\tbirthdate as string,\n\t\tgender as string,\n\t\tbirth_year as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT \\ncustomer_id,\\ncustomer_first_name\\nfrom dbo.Customers',\n\tformat: 'query') ~> CustomerDB\nSelect1 split(instore_yn  == true(),\n\tdisjoint: false) ~> ConditionalSplit1@(Orderinstore, Orderoutstore)\nDataLake01, CustomerDB lookup(DataLake01@customer_id == CustomerDB@customer_id,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> CustomerLookup\nCustomerLookup select(mapColumn(\n\t\ttransaction_id,\n\t\ttransaction_date,\n\t\ttransaction_time,\n\t\tstore_id,\n\t\tstaff_id,\n\t\tcustomer_id = DataLake01@customer_id,\n\t\tinstore_yn,\n\t\torder,\n\t\tline_item_id,\n\t\tproduct_id,\n\t\tquantity_sold,\n\t\tunit_price,\n\t\tpromo_item_yn,\n\t\tcustomer_first_name\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nConditionalSplit1@Orderinstore sink(input(\n\t\ttransaction_id as integer,\n\t\ttransaction_date as date,\n\t\ttransaction_time as timestamp,\n\t\tstore_id as integer,\n\t\tstaff_id as integer,\n\t\tcustomer_id as integer,\n\t\tinstore_yn as boolean,\n\t\torder as string,\n\t\tline_item_id as string,\n\t\tproduct_id as integer,\n\t\tquantity_sold as integer,\n\t\tunit_price as double,\n\t\tpromo_item_yn as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SQLDatabase01\nConditionalSplit1@Orderoutstore sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
+		}
+	}
+}

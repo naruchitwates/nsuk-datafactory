@@ -1,0 +1,17 @@
+{
+	"name": "MetaDataLocalFolder",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Users\\Naruchitwate.Suksomb\\OneDrive - Adastra, s.r.o\\Desktop\\Shared Folder",
+			"userId": "ADASTRACORPNET\\Naruchitwate.Suksomb",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5NGY5YzE5Zi1mMjc0LTRjZWQtYjI2MC01NmUxMjgxNThlMGQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

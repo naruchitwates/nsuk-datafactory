@@ -1,0 +1,179 @@
+{
+	"name": "nsuk_blob_file_to_sql",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "nsuk-blob-01//Customer Lookup.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.Customers"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "customer_id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "customer_id",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "home_store",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "home_store",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "customer_first-name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "customer_first_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "customer_email",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "customer_email",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "customer_since",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "customer_since",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "loyalty_card_number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "loyalty_card_number",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "birthdate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "birthdate",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "gender",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "gender",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "birth_year",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "birth_year",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AZ_BLOB_CSV_CUSTOMERS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AZ_SQL_DBO_CUSTOMERS",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-05-21T09:18:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

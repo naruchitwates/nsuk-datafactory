@@ -1,0 +1,55 @@
+{
+	"name": "AZ_SQL_DBO_CUSTOMERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureSqlDatabase01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "customer_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "home_store",
+				"type": "varchar"
+			},
+			{
+				"name": "customer_first_name",
+				"type": "varchar"
+			},
+			{
+				"name": "customer_email",
+				"type": "varchar"
+			},
+			{
+				"name": "customer_since",
+				"type": "varchar"
+			},
+			{
+				"name": "loyalty_card_number",
+				"type": "varchar"
+			},
+			{
+				"name": "birthdate",
+				"type": "varchar"
+			},
+			{
+				"name": "gender",
+				"type": "varchar"
+			},
+			{
+				"name": "birth_year",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Customers"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

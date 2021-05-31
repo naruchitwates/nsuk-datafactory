@@ -1,0 +1,78 @@
+{
+	"name": "AZ_SQL_DBO_ORDER_SINK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureSqlDatabase01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "transaction_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "transaction_date",
+				"type": "date"
+			},
+			{
+				"name": "transaction_time",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "store_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "staff_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "customer_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "instore_yn",
+				"type": "bit"
+			},
+			{
+				"name": "order",
+				"type": "nvarchar"
+			},
+			{
+				"name": "line_item_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "product_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "quantity_sold",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "unit_price",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "promo_item_yn",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Orders"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

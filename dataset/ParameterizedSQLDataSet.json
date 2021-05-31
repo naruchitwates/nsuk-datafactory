@@ -1,0 +1,25 @@
+{
+	"name": "ParameterizedSQLDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ParameterizedSQLLinkedService",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"SqlLinkedServiceNameParam": {
+					"value": "@dataset().ParamDataSetName",
+					"type": "Expression"
+				},
+				"SQLServerNaemeParam": "nsuk-server-01"
+			}
+		},
+		"parameters": {
+			"ParamDataSetName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

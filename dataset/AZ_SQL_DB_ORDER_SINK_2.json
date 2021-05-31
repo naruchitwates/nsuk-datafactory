@@ -1,0 +1,17 @@
+{
+	"name": "AZ_SQL_DB_ORDER_SINK_2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureSqlDatabase01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Orders_out"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

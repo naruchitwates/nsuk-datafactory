@@ -1,0 +1,49 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_T_CUSTOMER",
+						"type": "DatasetReference"
+					},
+					"name": "SQLCustomer"
+				},
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_T_DEPARTMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SQLDepartment"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_FINANCE",
+						"type": "DatasetReference"
+					},
+					"name": "FINANCESINK"
+				},
+				{
+					"dataset": {
+						"referenceName": "AZ_SQL_HR",
+						"type": "DatasetReference"
+					},
+					"name": "HRSINK"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string,\n\t\tDept_ID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SQLCustomer\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SQLDepartment\nSQLCustomer, SQLDepartment lookup(SQLCustomer@Dept_ID == SQLDepartment@Dept_ID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(Dept_Name == 'HR',\n\tDept_Name == 'Finance',\n\tdisjoint: true) ~> ConditionalSplit1@(HR, FINANCE)\nConditionalSplit1@FINANCE sink(input(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> FINANCESINK\nConditionalSplit1@HR sink(input(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HRSINK"
+		}
+	}
+}

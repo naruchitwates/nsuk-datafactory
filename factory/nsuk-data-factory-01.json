@@ -1,0 +1,9 @@
+{
+	"name": "nsuk-data-factory-01",
+	"location": "eastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e23aa072-83fa-4e06-9926-5936a88f59e5",
+		"tenantId": "dd92f8ec-83fc-44c4-b277-1c4120fae21c"
+	}
+}

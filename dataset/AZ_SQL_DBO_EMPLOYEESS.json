@@ -1,0 +1,43 @@
+{
+	"name": "AZ_SQL_DBO_EMPLOYEESS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureSqlDatabase01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "staff_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "first_name",
+				"type": "varchar"
+			},
+			{
+				"name": "last_name",
+				"type": "varchar"
+			},
+			{
+				"name": "position",
+				"type": "varchar"
+			},
+			{
+				"name": "start_date",
+				"type": "varchar"
+			},
+			{
+				"name": "location",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Employees"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
